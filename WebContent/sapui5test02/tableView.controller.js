@@ -13,9 +13,55 @@ sap.ui.controller("sapui5test02.tableView", {
 				this.handleSectionChanged, this);
 	},
 	
-	handleSectionChanged: function(sChannleId, sEventId, oEventData){
-		debugger;
+	getOriginalData: function(){
+		if( this._oTableOriginalData){
+			return this._oTableOriginalData;
+		}
+		var oModel = new sap.ui.model.json.JSONModel();
+		var that = this;
+		oModel._ajax({
+			  url: "sapui5test02/tableSampleData.json",
+			  async: false,
+			  dataType: 'json',
+			  cache: true,
+			  data: undefined,
+			  headers: undefined,
+			  type: "GET",
+			  success: function(oData) {
+				if (!oData) {
+					jQuery.sap.log.fatal("The following problem occurred: No data was retrieved by service");
+				}
+				that._oTableOriginalData = oData.members;
+			  },
+			  error: function(XMLHttpRequest, textStatus, errorThrown){
+				// TODO log error
+			  }
+			});
+		return this._oTableOriginalData;
 	},
+	handleSectionChanged: function(sChannleId, sEventId, oEventData){
+		this.filterTable(oEventData.selected);
+	},
+	
+	filterTable: function(sSelectedFirstName){
+		this.oView.oTable.getModel().setData(this.getFilteredJSONData(sSelectedFirstName));
+	},
+	
+	getFilteredJSONData:function(sSelectedFirstName){
+		var oldData = this.getOriginalData();
+		if( sSelectedFirstName.trim() === ""){
+			return {
+				members: oldData
+			};
+		}
+		var newData = {
+			members: oldData.filter(function(currentValue,index,array){
+				return currentValue.fName.toLowerCase() === this.sMatch;
+			}, { sMatch: sSelectedFirstName.toLowerCase()})
+		};
+		return newData;
+
+	}
 	// added by Jerry 2016-06-02 - END
 
 /**

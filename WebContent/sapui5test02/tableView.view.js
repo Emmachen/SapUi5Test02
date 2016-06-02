@@ -13,8 +13,8 @@ sap.ui.jsview("sapui5test02.tableView", {
 	* @memberOf sapui5test02.tableView
 	*/ 
 	createContent : function(oController) {
-		var tableData = {"members":[{"fName":"jerry","lName":"wang","gender":"male"},{"fName":"vicky","lName":"chen","gender":"female"},{"fName":"sara","lName":"zhang","gender":"female"}]};
-		var oModel = new sap.ui.model.json.JSONModel(tableData);
+		//var tableData = {"members":[{"fName":"jerry","lName":"wang","gender":"male"},{"fName":"vicky","lName":"chen","gender":"female"},{"fName":"sara","lName":"zhang","gender":"female"}]};
+		var oModel = new sap.ui.model.json.JSONModel("sapui5test02/tableSampleData.json");
 		var oTable = new sap.ui.table.Table({columns:[
 			new sap.ui.table.Column({
 				label:new sap.ui.commons.Label({text:"fullName"}),
@@ -48,6 +48,7 @@ sap.ui.jsview("sapui5test02.tableView", {
 	
 	oTable.setModel(oModel);
 	oTable.bindRows("/members");
+	this.oTable = oTable;
 	return oTable;
 	}
 
