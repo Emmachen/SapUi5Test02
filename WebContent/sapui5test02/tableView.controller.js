@@ -5,9 +5,18 @@ sap.ui.controller("sapui5test02.tableView", {
 * Can be used to modify the View before it is displayed, to bind event handlers and do other one-time initialization.
 * @memberOf sapui5test02.tableView
 */
-//	onInit: function() {
-//
-//	},
+	// added by Jerry 2016-06-02 - BEGIN
+	onInit: function() {
+
+		var oBus = sap.ui.getCore().getEventBus();
+		oBus.subscribe("sapui5test02", "SelectionChanged",
+				this.handleSectionChanged, this);
+	},
+	
+	handleSectionChanged: function(sChannleId, sEventId, oEventData){
+		debugger;
+	},
+	// added by Jerry 2016-06-02 - END
 
 /**
 * Similar to onAfterRendering, but this hook is invoked before the controller's View is re-rendered

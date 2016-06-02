@@ -12,6 +12,11 @@ sap.ui.jsview("sapui5test02.MyView", {
 	* Since the Controller is given to this method, its event handlers can be attached right away. 
 	* @memberOf sapui5test02.MyView
 	*/ 
+	
+	getSelectedComboValue: function(){
+		var comBox = this.byId("cb");
+		return comBox.getValue();
+	}, 
 	createContent : function(oController) {
 		//var oModl = new sap.ui.model.json.JSONModel("jm");	
 		var oModl = new sap.ui.model.json.JSONModel();
@@ -27,7 +32,7 @@ sap.ui.jsview("sapui5test02.MyView", {
 		//the path parameter shoult be the data array's var name. here is text
 		var oFilter = new sap.ui.model.Filter("text",sap.ui.model.FilterOperator.StartsWith, 'v');
 		var oTextField = new sap.ui.commons.TextField({id:"tf",value:""});
-		var oComoBox = new sap.ui.commons.ComboBox("cb",{
+		var oComoBox = new sap.ui.commons.ComboBox(this.createId("cb"),{
 			//items:{path:"/data",template:oListItem0,filters:[oFilter]},
 			change:function(oEvent){
 				sap.ui.getCore().byId("tf").setValue(oEvent.oSource.getSelectedKey());
@@ -39,15 +44,23 @@ sap.ui.jsview("sapui5test02.MyView", {
 
 		oComoBox.setModel(oModl);
 		oComoBox.bindValue("/selection"); 
-		oComoBox.bindItems("/data", oListItem0,null,oFilter);//path,template,sorter,filter
-		//oComoBox.bindItems("/data", oListItem0,oSorter);
+		// oComoBox.bindItems("/data", oListItem0,null,oFilter);//path,template,sorter,filter
+		oComoBox.bindItems("/data", oListItem0,oSorter);
 		var tf1 = new sap.ui.commons.TextField("tf1");
 		var tfv = new sap.ui.commons.TextView();
+		var that = this;
 		var but = new sap.ui.commons.Button({
 			text:"submit",
 			press:function(evt){
 				//tfv.setText(sap.ui.getCore().byId("tf1").getValue());
 				oModlData.setData({name:sap.ui.getCore().byId("tf1").getValue()});
+				
+				// added by Jerry 2016-06-02 - BEGIN
+				sap.ui.getCore().getEventBus().publish(
+						"sapui5test02", "SelectionChanged", {
+							selected : that.getSelectedComboValue()
+						});
+				// added by Jerry 2016-06-02 - END
 			}
 		});
 		

@@ -48,7 +48,7 @@ sap.ui.jsview("sapui5test02.tableView", {
 	
 	oTable.setModel(oModel);
 	oTable.bindRows("/members");
-	return oTable
+	return oTable;
 	}
 
 });
