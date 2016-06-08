@@ -87,7 +87,7 @@
 	<!-- ============================================================== -->
 
 	<welcome-file-list>
-		<welcome-file>index.html</welcome-file>
+		<welcome-file>Angular_http.html</welcome-file>
 	</welcome-file-list>
 
 
