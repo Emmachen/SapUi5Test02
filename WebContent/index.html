@@ -8,18 +8,24 @@
 		<script src="resources/sap-ui-core.js"
 				id="sap-ui-bootstrap"
 				data-sap-ui-libs="sap.ui.commons,sap.ui.table"
+				data-sap-ui-preload="async"
 				data-sap-ui-theme="sap_bluecrystal">
 		</script>
 		<!-- add sap.ui.table,sap.ui.ux3 and/or other libraries to 'data-sap-ui-libs' if required -->
 
 		<script>
-				sap.ui.localResources("sapui5test02");
-				//var view = sap.ui.view({id:"idMyView1", viewName:"sapui5test02.MyView", type:sap.ui.core.mvc.ViewType.JS});
-				var view = sap.ui.view({ viewName:"sapui5test02.MyView", type:sap.ui.core.mvc.ViewType.JS});
-				view.placeAt("content");
-				//table view
-				var tView = sap.ui.view({id:"idTableView1", viewName:"sapui5test02.tableView", type:sap.ui.core.mvc.ViewType.JS});
-				tView.placeAt("table");
+		sap.ui.getCore().attachInit( function() {
+			sap.ui.localResources("sapui5test02");
+			//var view = sap.ui.view({id:"idMyView1", viewName:"sapui5test02.MyView", type:sap.ui.core.mvc.ViewType.JS});
+			var view = sap.ui.view({ viewName:"sapui5test02.MyView", type:sap.ui.core.mvc.ViewType.JS});
+			view.placeAt("content");
+			//table view
+			var tView = sap.ui.view({id:"idTableView1", viewName:"sapui5test02.tableView", type:sap.ui.core.mvc.ViewType.JS});
+			tView.placeAt("table");
+		 });
+		</script>
+		<script>
+				
 		</script>
 
 	</head>
